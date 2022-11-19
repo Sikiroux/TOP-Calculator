@@ -1,6 +1,7 @@
 body {
     display: flex;
     justify-content: center;
+    background-color:rgb(133, 118, 118);
 }
 
 
@@ -9,13 +10,28 @@ body {
   width: 450px;
   margin-top: 100px;
   padding-top: 30px;
-  padding-right: 10px;
+  padding-right: 5px;
   border-radius: 20px;
   border-collapse: separate;
   border: 10px double rgb(119, 119, 119);
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.name {
+    color: whitesmoke;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background-color: grey;
+    padding: 15px;
+    border: 5px double rgb(77, 76, 76);
+    border-radius: 20px;
+    width: 130px;
+    text-align: center;
+    text-shadow: 1px 1px rgb(63, 63, 63);
 }
 
 #scnd {
@@ -29,8 +45,6 @@ body {
         "four five six multi"
         "one two three substract"
         ". zer0 equal addition"
-
-        
     ;
 }
 
@@ -101,8 +115,8 @@ button.divide {
 
 .clicked {
     opacity: 70%;
-    transform: scale(0.90)
-    transition-duration: 150ms;
+    transform: scale(0.80);
+    transition-duration: 100ms;
 
 }
 

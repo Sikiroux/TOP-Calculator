@@ -1,10 +1,28 @@
 /////Variables/////
 
-const buttonsCont = document.querySelector("#scnd")
-const btns = buttonsCont.querySelectorAll("button")
+//All buttons:
+const buttonsCont = document.querySelector("#scnd");
+const btns = buttonsCont.querySelectorAll("button");
+
+const numberBtns = document.querySelectorAll(".number");
+
+//Buttons operator:
+let divideBtn = document.querySelector(".divide");
+let multiBtn = document.querySelector(".multiply");
+let addBtn = document.querySelector(".add");
+let substractBtn = document.querySelector(".substract");
+let operators = document.querySelectorAll(".operator")
+
+//Screen where the numbers are shown
 let screen = document.querySelector(".numbersOne");
+let screen2 = document.querySelector(".numbersTwo");
 
+//the current input
+let currentInput = "";
 
+//Value:
+let value1 = "";
+let value2 = "";
 
 ////FUNCTIONS/////
 
@@ -56,14 +74,18 @@ function operate(a, b) {
 function checkValue(value) {
     if(value === undefined) {
         screen.textContent = 0;
-    }
+        screen2.textContent = 0;
+    } 
 }
 
 function populate(value) {
-    if (screen.textContent.includes(0)) {
-        screen.textContent = "";
-    }
     screen.textContent += value;
+    if(value === "÷" || value === "x" || value === "-" || value === "+" || value === "=") {
+        screen2.textContent += "";
+        screen2.textContent -= "";
+    } else {
+        screen2.textContent += value;
+    }
 }
 populate();   
 checkValue();
@@ -89,12 +111,64 @@ function hoverEnd() {
 hoverEnd();
 
 /*////CLick function\\\\*/
+
+//Modify the css//
+
+//Function to remove the css after a click
+function removeTransition(e) {
+    if(e.propertyName  !== "transform") return;
+    this.classList.remove("clicked")
+}
+
 function changeBtnOnClick() {
     btns.forEach(button => {
         button.addEventListener("click", () => {
             button.classList.remove("hover")
             button.classList.add("clicked");
+            button.addEventListener("transitionend", removeTransition);
         })
+        
     })
 }
 changeBtnOnClick();
+
+//Function to return a value when clicked button;
+
+function getButtonValue() {
+    btns.forEach(button => {
+        button.addEventListener("click", () => {
+            currentValue = button.textContent;
+            let value = "";
+            value += button.textContent
+            populate(value);
+        })
+    })
+}
+getButtonValue();
+
+//Function deactivate operator button if there's already an operator;
+function deactivateOp() {
+    if(screen.textContent.endsWith("+")) {
+        divideBtn.disable = true;
+        multiBtn.disable = true;
+        addBtn.disable = true;
+        substractBtn.disable = true;
+    }
+}
+deactivateOp();
+
+//Function make calcul variables(value);
+
+function getValue1(value) {
+     value1 += value;
+}
+
+function getValue() {
+    numberBtns.forEach(button => {
+        button.addEventListener("click", getValue1(button.textContent))
+    }
+    )}
+
+getValue();
+
+//Function make calcul;
