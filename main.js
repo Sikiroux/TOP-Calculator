@@ -21,6 +21,8 @@ let screen2 = document.querySelector(".numbersTwo");
 let currentInput = "";
 
 //Value:
+let var1 = "";
+let var2 = "";
 let value1 = "";
 let value2 = "";
 
@@ -158,17 +160,63 @@ function deactivateOp() {
 deactivateOp();
 
 //Function make calcul variables(value);
-
-function getValue1(value) {
-     value1 += value;
+/*
+function getValue1() {
+    numberBtns.forEach(button => {
+        button.addEventListener("click", () => {
+            value1 += button.textContent;
+        })
+    })
 }
+*/
 
 function getValue() {
     numberBtns.forEach(button => {
-        button.addEventListener("click", getValue1(button.textContent))
+        button.addEventListener("click", () => {
+            var1 = button.textContent;
+        })
     }
-    )}
+    )
+}
 
+
+function getValueBis() {
+    numberBtns.forEach(button => {
+        button.addEventListener("click", getValue1)
+    })
+    operators.forEach(button => {
+        button.addEventListener("click", () => {
+            numberBtns.forEach(button => {
+                button.removeEventListener("click", getValue1)
+            })
+        })
+    })
+}
+
+
+function getValue1() {
+    value1 += var1;
+}
+
+/*
+function stopValue1() {
+    operators.forEach(button => {
+        button.addEventListener("click", () => {
+            numberBtns.forEach(button => {
+                button.removeEventListener("click", getValue1);
+            })
+        })
+    })
+}
+stopValue1();
+*/
+
+
+
+
+
+getValue1();
+getValueBis();
 getValue();
 
 //Function make calcul;
