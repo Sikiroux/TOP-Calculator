@@ -7,6 +7,7 @@ const btns = buttonsCont.querySelectorAll("button");
 const numberBtns = document.querySelectorAll(".number");
 
 //Buttons operator:
+let equal = document.querySelector(".equal");
 let divideBtn = document.querySelector(".divide");
 let multiBtn = document.querySelector(".multiply");
 let addBtn = document.querySelector(".add");
@@ -22,7 +23,6 @@ let currentInput = "";
 
 //Value:
 let var1 = "";
-let var2 = "";
 let value1 = "";
 let value2 = "";
 
@@ -160,37 +160,30 @@ function deactivateOp() {
 deactivateOp();
 
 //Function make calcul variables(value);
-/*
-function getValue1() {
-    numberBtns.forEach(button => {
-        button.addEventListener("click", () => {
-            value1 += button.textContent;
-        })
-    })
-}
-*/
 
-function getValue() {
+//variable one
+
+
+function getValueOne() {
     numberBtns.forEach(button => {
         button.addEventListener("click", () => {
             var1 = button.textContent;
         })
-    }
-    )
-}
-
-
-function getValueBis() {
-    numberBtns.forEach(button => {
-        button.addEventListener("click", getValue1)
     })
-    operators.forEach(button => {
-        button.addEventListener("click", () => {
-            numberBtns.forEach(button => {
-                button.removeEventListener("click", getValue1)
+    function getValueBis() {
+        numberBtns.forEach(button => {
+            button.addEventListener("click", getValue1)
+        })
+        operators.forEach(button => {
+            button.addEventListener("click", () => {
+                numberBtns.forEach(button => {
+                    button.removeEventListener("click", getValue1)
+                })
             })
         })
-    })
+    }
+    getValueBis();
+
 }
 
 
@@ -198,25 +191,46 @@ function getValue1() {
     value1 += var1;
 }
 
-/*
-function stopValue1() {
-    operators.forEach(button => {
+getValue1();
+getValueOne();
+
+
+//variable 2;
+
+function getValueTwo() {
+    numberBtns.forEach(button => {
         button.addEventListener("click", () => {
-            numberBtns.forEach(button => {
-                button.removeEventListener("click", getValue1);
-            })
+            var1 = button.textContent;
         })
     })
+    function startNStopValue() {
+        numberBtns.forEach(button => {
+            button.addEventListener("click", getValue2)
+        })
+        /*
+        operators.forEach(button => {
+            button.addEventListener("click", () => {
+                numberBtns.forEach(button => {
+                    button.removeEventListener("click", getValue2)
+                })
+            })
+        })
+        */
+        equal.addEventListener("click", numberBtns.forEach(button => {
+            button.removeEventListener("click", getValue2);
+        }))
+    }
+    startNStopValue();
 }
-stopValue1();
-*/
 
 
+function getValue2() {
+    value2 += var1;
+}
+
+getValue2();
+getValueTwo();
 
 
-
-getValue1();
-getValueBis();
-getValue();
 
 //Function make calcul;
