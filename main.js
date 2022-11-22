@@ -12,7 +12,7 @@ const operatorsBtns = document.querySelectorAll(".operator");
 const equal = document.querySelector(".equal");
 
 //Clear button;
-const clear = document.querySelector("clear");
+const clearbtn = document.querySelector(".clear");
 
 //Screen display;
 const displayOne = document.querySelector(".numbersOne");
@@ -20,7 +20,7 @@ const displayTwo = document.querySelector(".numbersTwo");
 
 
 /*//////VARIABLES\\\\\\*/
-let displayValue = null;
+
 
 
 /*/////Values\\\\*/
@@ -191,25 +191,72 @@ function calculOnEqual() {
 
 calculOnEqual();
 
-//make multiple calcul;
-/*
-function multiCalcul() {
-    if(operator === "-" && value1 !== "") {
-        operatorsBtns.forEach(button => {
-            button.addEventListener("click", () => {
-                value2 = Number(displayOne.textContent);
-                console.log(value2);
-                operate(operator, value1, value2);
-                console.log(value2);
-                value1 = Number(displayTwo.textContent);
-                console.log(value1);
-                operator = button.textContent;
-                displayTwo.textContent = result; 
-            })
-        })
-    }
-    ;
+//Make a clear button;
+
+function clearAction() {
+    clearbtn.addEventListener("click", () => {
+        value1 = 0;
+        value2 = 0;
+        operator = 0;
+        displayOne.textContent = 0;
+        displayTwo.textContent = 0;
+        
+    })
 }
 
-multiCalcul(); */
+clearAction();
 
+
+/*/////CSS interactions\\\\\*/
+
+//Hovering;
+
+function hover() {
+    buttons.forEach(button => {
+        button.addEventListener("mouseover", () => {
+            button.classList.add("hover");
+        })
+    })
+    clearbtn.addEventListener("mouseover", () => {
+        clearbtn.classList.add("hover");
+    })
+}
+
+hover();
+
+function hoverEnd() {
+    buttons.forEach(button => {
+        button.addEventListener("mouseleave", () => {
+            button.classList.remove("hover");
+        })
+    })
+    clearbtn.addEventListener("mouseleave", () => {
+        clearbtn.classList.remove("hover");
+    })
+}
+
+hoverEnd();
+
+//Click functions;
+
+function removeTransition(e) {
+    if(e.propertyName  !== "transform") return;
+    this.classList.remove("clicked")
+}
+
+function changeBtnOnClick() {
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            button.classList.remove("hover")
+            button.classList.add("clicked");
+            button.addEventListener("transitionend", removeTransition);
+        })
+        
+    })
+    clearbtn.addEventListener("click", () => {
+        clearbtn.classList.remove("hover");
+        clearbtn.classList.add("clicked");
+        clearbtn.addEventListener("transitionend", removeTransition);
+    })
+}
+changeBtnOnClick();
