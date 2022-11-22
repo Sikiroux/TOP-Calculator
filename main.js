@@ -1,60 +1,70 @@
-/////Variables/////
+//All buttons on the screen;
+const buttonsCont = document.querySelector("#button-cont");
 
-//All buttons:
-const buttonsCont = document.querySelector("#scnd");
-const btns = buttonsCont.querySelectorAll("button");
+//Select all buttons;
+const buttons = buttonsCont.querySelectorAll("button");
 
+//Select all Numbers buttons;
 const numberBtns = document.querySelectorAll(".number");
 
-//Buttons operator:
-let equal = document.querySelector(".equal");
-let divideBtn = document.querySelector(".divide");
-let multiBtn = document.querySelector(".multiply");
-let addBtn = document.querySelector(".add");
-let substractBtn = document.querySelector(".substract");
-let operators = document.querySelectorAll(".operator")
+//Operator buttons;
+const operatorsBtns = document.querySelectorAll(".operator");
+const equal = document.querySelector(".equal");
 
-//Screen where the numbers are shown
-let screen = document.querySelector(".numbersOne");
-let screen2 = document.querySelector(".numbersTwo");
+//Clear button;
+const clear = document.querySelector("clear");
 
-//the current input
-let currentInput = "";
+//Screen display;
+const displayOne = document.querySelector(".numbersOne");
+const displayTwo = document.querySelector(".numbersTwo");
 
-//Value:
-let var1 = "";
-let value1 = "";
-let value2 = "";
 
-////FUNCTIONS/////
+/*//////VARIABLES\\\\\\*/
+let displayValue = null;
 
-/*/////Operation\\\\\*/
+
+/*/////Values\\\\*/
+let value1 = 0;
+let value2 = 0;
+
+let operator = "";
+let result =  0;
+displayOne.textContent = 0;
+displayTwo.textContent = 0;
+
+
+/*/////FUNCTIONS\\\\\*/
+
+
+
+//Operations;
 
 function add(a, b) {
-    let result = a + b;
-    return result;
+    result = a + b;
+    return;
 }
 
 function substract(a, b) {
-    let result = a - b;
-    return result;
+    result = a - b;
+    return;
 }
 
 function multiply(a, b) {
-    let result = a * b;
-    return result;
+    result = a * b;
+    return;
 }
 
 function divide(a, b) {
-    let result = a / b;
-    return result;
+    result =  a / b;
+    return;
 }
 
-/*////Other Function\\\\*/
 
-function operate(a, b) {
-    num1 = a 
-    num2 = b
+//Operate functions;
+
+function operate(operator, a, b) {
+    num1 = a;
+    num2 = b;
     switch(operator) {
         case "+":
             add(num1, num2);
@@ -62,175 +72,144 @@ function operate(a, b) {
         case "-":
             substract(num1, num2);
             break;
-        case"*":
-            add(num1, num2);
+        case"x":
+            multiply(num1, num2);
             break;
-        case "/":
+        case "÷":
             divide(num1, num2);
             break;
     }
+    return result;
 }
 
-/*////Function populate screen\\\\*/
+operate();
+//Populate display function;
 
-function checkValue(value) {
-    if(value === undefined) {
-        screen.textContent = 0;
-        screen2.textContent = 0;
-    } 
-}
-
-function populate(value) {
-    screen.textContent += value;
-    if(value === "÷" || value === "x" || value === "-" || value === "+" || value === "=") {
-        screen2.textContent += "";
-        screen2.textContent -= "";
-    } else {
-        screen2.textContent += value;
-    }
-}
-populate();   
-checkValue();
-
-/*////Hovering function\\\\*/
-
-function hover() {
-    btns.forEach(button => {
-        button.addEventListener("mouseover", () => {
-            button.classList.add("hover");
-        })
-    })
-}
-hover();
-
-function hoverEnd() {
-    btns.forEach(button => {
-        button.addEventListener("mouseleave", () => {
-            button.classList.remove("hover");
-        })
-    })
-}
-hoverEnd();
-
-/*////CLick function\\\\*/
-
-//Modify the css//
-
-//Function to remove the css after a click
-function removeTransition(e) {
-    if(e.propertyName  !== "transform") return;
-    this.classList.remove("clicked")
-}
-
-function changeBtnOnClick() {
-    btns.forEach(button => {
+function pop() {
+    buttons.forEach(button => {
         button.addEventListener("click", () => {
-            button.classList.remove("hover")
-            button.classList.add("clicked");
-            button.addEventListener("transitionend", removeTransition);
-        })
-        
-    })
-}
-changeBtnOnClick();
-
-//Function to return a value when clicked button;
-
-function getButtonValue() {
-    btns.forEach(button => {
-        button.addEventListener("click", () => {
-            currentValue = button.textContent;
-            let value = "";
-            value += button.textContent
-            populate(value);
+            let vaR = "";
+            //console.log(vaR += button.textContent);
         })
     })
 }
-getButtonValue();
 
-//Function deactivate operator button if there's already an operator;
-function deactivateOp() {
-    if(screen.textContent.endsWith("+")) {
-        divideBtn.disable = true;
-        multiBtn.disable = true;
-        addBtn.disable = true;
-        substractBtn.disable = true;
-    }
-}
-deactivateOp();
+pop(); 
 
-//Function make calcul variables(value);
-
-//variable one
-
-
-function getValueOne() {
+function populate() {
     numberBtns.forEach(button => {
         button.addEventListener("click", () => {
-            var1 = button.textContent;
+            displayOne.textContent += button.textContent;
         })
     })
-    function getValueBis() {
-        numberBtns.forEach(button => {
-            button.addEventListener("click", getValue1)
+}
+populate();
+
+//Create a variable when operator click;
+
+function createValue() {
+    operatorsBtns.forEach(button => {
+        button.addEventListener("click", () => {
+            if(operator === "") {
+                value1 = Number(displayOne.textContent);
+                displayOne.textContent = 0;
+                displayTwo.textContent = value1;
+                console.log(value1)
+            }
+           
         })
-        operators.forEach(button => {
+    })
+}
+
+createValue(); 
+
+//Get the operator when the button is clicked
+function getOperator(button) {
+    operator = button.textContent;
+}
+
+function multiCalcul() {
+    operatorsBtns.forEach(button => {
+        button.addEventListener("click", () => {
+            if(operator === "-") {
+                console.log("substract");
+                getSecondValue();
+                operate(operator, value1, value2); 
+                displayTwo.textContent = result;
+                value1 = Number(displayTwo.textContent);
+                getOperator(button);
+                displayOne.textContent = 0;
+            } else if(operator === "x") {
+                console.log("multiply");
+                getSecondValue();
+                operate(operator, value1, value2); 
+                displayTwo.textContent = result;
+                value1 = Number(displayTwo.textContent);
+                getOperator(button);
+                displayOne.textContent = 0;
+            } else if(operator === "+") {
+                console.log("add");
+                getSecondValue();
+                operate(operator, value1, value2); 
+                displayTwo.textContent = result;
+                value1 = Number(displayTwo.textContent);
+                getOperator(button);
+                displayOne.textContent = 0;
+            } else if(operator === "÷") {
+                console.log("divide");
+                getSecondValue();
+                operate(operator, value1, value2); 
+                displayTwo.textContent = result;
+                value1 = Number(displayTwo.textContent);
+                getOperator(button);
+                displayOne.textContent = 0;
+            } else {
+                console.log("operator");
+                getOperator(button);
+            }
+        })
+    })
+}
+
+multiCalcul();
+
+//Create the second value;
+
+function getSecondValue() {
+    value2 = Number(displayOne.textContent);
+}
+//Make calcul on equal function;
+
+function calculOnEqual() {
+    equal.addEventListener("click", () => {
+        getSecondValue();
+        operate(operator, value1, value2);
+        displayTwo.textContent = result;
+        displayOne.textContent = 0;
+    })
+}
+
+calculOnEqual();
+
+//make multiple calcul;
+/*
+function multiCalcul() {
+    if(operator === "-" && value1 !== "") {
+        operatorsBtns.forEach(button => {
             button.addEventListener("click", () => {
-                numberBtns.forEach(button => {
-                    button.removeEventListener("click", getValue1)
-                })
+                value2 = Number(displayOne.textContent);
+                console.log(value2);
+                operate(operator, value1, value2);
+                console.log(value2);
+                value1 = Number(displayTwo.textContent);
+                console.log(value1);
+                operator = button.textContent;
+                displayTwo.textContent = result; 
             })
         })
     }
-    getValueBis();
-
+    ;
 }
 
+multiCalcul(); */
 
-function getValue1() {
-    value1 += var1;
-}
-
-getValue1();
-getValueOne();
-
-
-//variable 2;
-
-function getValueTwo() {
-    numberBtns.forEach(button => {
-        button.addEventListener("click", () => {
-            var1 = button.textContent;
-        })
-    })
-    function startNStopValue() {
-        numberBtns.forEach(button => {
-            button.addEventListener("click", getValue2)
-        })
-        /*
-        operators.forEach(button => {
-            button.addEventListener("click", () => {
-                numberBtns.forEach(button => {
-                    button.removeEventListener("click", getValue2)
-                })
-            })
-        })
-        */
-        equal.addEventListener("click", numberBtns.forEach(button => {
-            button.removeEventListener("click", getValue2);
-        }))
-    }
-    startNStopValue();
-}
-
-
-function getValue2() {
-    value2 += var1;
-}
-
-getValue2();
-getValueTwo();
-
-
-
-//Function make calcul;
