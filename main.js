@@ -11,8 +11,18 @@ const numberBtns = document.querySelectorAll(".number");
 const operatorsBtns = document.querySelectorAll(".operator");
 const equal = document.querySelector(".equal");
 
+//Top buttons;
+const topBtn = document.querySelector("#btnContainer");
+const btnTop = document.querySelectorAll("button");
+
 //Clear button;
 const clearbtn = document.querySelector(".clear");
+
+//Decimals button;
+const decimalsBtn = document.querySelector(".point");
+
+//Delete button;
+const deleteBtn = document.querySelector(".backspace");
 
 //Screen display;
 const displayOne = document.querySelector(".numbersOne");
@@ -100,6 +110,8 @@ function populate() {
     numberBtns.forEach(button => {
         button.addEventListener("click", () => {
             displayOne.textContent += button.textContent;
+            decimal();
+            disableBackspace();
         })
     })
 }
@@ -131,11 +143,13 @@ function getOperator(button) {
 function multiCalcul() {
     operatorsBtns.forEach(button => {
         button.addEventListener("click", () => {
+            decimal();
+            disableBackspace();
             if(operator === "-") {
                 console.log("substract");
                 getSecondValue();
                 operate(operator, value1, value2); 
-                displayTwo.textContent = result;
+                displayTwo.textContent = Math.round(result * 100) / 100;
                 value1 = Number(displayTwo.textContent);
                 getOperator(button);
                 displayOne.textContent = 0;
@@ -143,7 +157,7 @@ function multiCalcul() {
                 console.log("multiply");
                 getSecondValue();
                 operate(operator, value1, value2); 
-                displayTwo.textContent = result;
+                displayTwo.textContent = Math.round(result * 100) / 100;
                 value1 = Number(displayTwo.textContent);
                 getOperator(button);
                 displayOne.textContent = 0;
@@ -151,7 +165,7 @@ function multiCalcul() {
                 console.log("add");
                 getSecondValue();
                 operate(operator, value1, value2); 
-                displayTwo.textContent = result;
+                displayTwo.textContent = Math.round(result * 100) / 100;
                 value1 = Number(displayTwo.textContent);
                 getOperator(button);
                 displayOne.textContent = 0;
@@ -159,7 +173,7 @@ function multiCalcul() {
                 console.log("divide");
                 getSecondValue();
                 operate(operator, value1, value2); 
-                displayTwo.textContent = result;
+                displayTwo.textContent = Math.round(result * 100) / 100;
                 value1 = Number(displayTwo.textContent);
                 getOperator(button);
                 displayOne.textContent = 0;
@@ -184,7 +198,7 @@ function calculOnEqual() {
     equal.addEventListener("click", () => {
         getSecondValue();
         operate(operator, value1, value2);
-        displayTwo.textContent = result;
+        displayTwo.textContent = Math.round(result * 100) / 100;
         displayOne.textContent = 0;
     })
 }
@@ -195,9 +209,9 @@ calculOnEqual();
 
 function clearAction() {
     clearbtn.addEventListener("click", () => {
-        value1 = 0;
-        value2 = 0;
-        operator = 0;
+        value1 = "";
+        value2 = "";
+        operator = "";
         displayOne.textContent = 0;
         displayTwo.textContent = 0;
         
@@ -207,6 +221,37 @@ function clearAction() {
 clearAction();
 
 
+//decimals
+
+//function verify if a decimal is already in use
+function decimal() {
+    if (displayOne.textContent.includes(".")) {
+        decimalsBtn.disabled = true;
+    } else {
+        decimalsBtn.disabled = false;
+    }
+}
+
+//delete
+function backspace() {
+    deleteBtn.addEventListener("click", () => {
+        let suppr = displayOne.textContent.slice(0, -1);
+        displayOne.textContent = suppr;
+        disableBackspace();
+    })
+}
+
+backspace();
+
+function disableBackspace() {
+    if (displayOne.textContent === "0") {
+        deleteBtn.disabled = true;
+    } else {
+        deleteBtn.disabled = false;
+    }
+}
+
+disableBackspace();
 /*/////CSS interactions\\\\\*/
 
 //Hovering;
@@ -217,8 +262,10 @@ function hover() {
             button.classList.add("hover");
         })
     })
-    clearbtn.addEventListener("mouseover", () => {
-        clearbtn.classList.add("hover");
+    btnTop.forEach(button => {
+        button.addEventListener("mouseover", () => {
+            button.classList.add("hover");
+        })
     })
 }
 
@@ -230,8 +277,10 @@ function hoverEnd() {
             button.classList.remove("hover");
         })
     })
-    clearbtn.addEventListener("mouseleave", () => {
-        clearbtn.classList.remove("hover");
+    btnTop.forEach(button => {
+        button.addEventListener("mouseleave", () => {
+            button.classList.remove("hover");
+        })
     })
 }
 
@@ -253,10 +302,12 @@ function changeBtnOnClick() {
         })
         
     })
-    clearbtn.addEventListener("click", () => {
-        clearbtn.classList.remove("hover");
-        clearbtn.classList.add("clicked");
-        clearbtn.addEventListener("transitionend", removeTransition);
+    btnTop.forEach(button => {
+        button.addEventListener("click", () => {
+            button.classList.remove("hover");
+            button.classList.add("clicked");
+            button.addEventListener("transitionend", removeTransition);
+        })
     })
 }
 changeBtnOnClick();
